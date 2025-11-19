@@ -23,11 +23,40 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("Todos");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [cartCount, setCartCount] = useState(0);
+  const [cartItems, setCartItems] = useState<Product[]>([]);
 
   const handleAddToCart = (product: Product) => {
     setCartCount((prev) => prev + 1);
+    setCartItems((prev) => [...prev, product]);
     toast.success("Añadido al carrito", {
       description: `${product.title} se ha añadido correctamente.`,
+    });
+  };
+
+  const handleSendCart = () => {
+    if (cartItems.length === 0) {
+      toast.error("Carrito vacío", {
+        description: "Añade productos antes de enviar el pedido.",
+      });
+      return;
+    }
+
+    const whatsappNumber = "34619029065";
+    const productList = cartItems
+      .map((item, index) => `${index + 1}. ${item.title} - €${item.price.toFixed(2)}`)
+      .join("\n");
+    const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+    
+    const message = `Hola, quiero hacer un pedido desde Infantes 3D:\n\n` +
+      `Productos:\n${productList}\n\n` +
+      `Total: €${total.toFixed(2)}\n\n` +
+      `Por favor, confirmar disponibilidad y tiempo de entrega.`;
+    
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+    
+    toast.success("Redirigiendo a WhatsApp", {
+      description: "Se abrirá una ventana con tu pedido preparado.",
     });
   };
 
@@ -69,6 +98,7 @@ const Index = () => {
               variant="outline"
               size="lg"
               className="relative border-2 hover:border-primary"
+              onClick={handleSendCart}
             >
               <ShoppingCart className="w-5 h-5" />
               {cartCount > 0 && (

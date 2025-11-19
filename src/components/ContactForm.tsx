@@ -17,8 +17,19 @@ export function ContactForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Solicitud enviada", {
-      description: "Nos pondremos en contacto contigo pronto.",
+    
+    const whatsappNumber = "34619029065";
+    const message = `Hola, quiero hacer una consulta desde Infantes 3D:\n\n` +
+      `Nombre: ${formData.name}\n` +
+      `Email: ${formData.email}\n` +
+      `Teléfono: ${formData.phone || "No proporcionado"}\n\n` +
+      `Mensaje:\n${formData.message}`;
+    
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+    
+    toast.success("Redirigiendo a WhatsApp", {
+      description: "Se abrirá una ventana con tu mensaje preparado.",
     });
     handleReset();
   };
