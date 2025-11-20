@@ -144,11 +144,6 @@ const Index = () => {
               <span className="text-sm text-muted-foreground">
                 Personalización total
               </span>
-              <span className="text-muted-foreground">•</span>
-              <Package className="w-5 h-5 text-accent" />
-              <span className="text-sm text-muted-foreground">
-                Envío cuidadoso
-              </span>
             </div>
           </motion.div>
         </div>
