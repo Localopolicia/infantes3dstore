@@ -28,7 +28,7 @@ export function ProductCard({ product, onOpen, onAddToCart }: ProductCardProps) 
             className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
             loading="lazy"
           />
-          {product.customizable && (
+          {product.customizable && product.category !== "Marcapáginas" && (
             <Badge 
               variant="secondary" 
               className="absolute top-3 right-3 bg-accent text-accent-foreground shadow-lg border-2 border-background"

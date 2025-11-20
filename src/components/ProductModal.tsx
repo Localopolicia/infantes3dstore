@@ -26,7 +26,7 @@ export function ProductModal({ product, open, onClose, onAddToCart }: ProductMod
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold flex items-center gap-2">
             {product.title}
-            {product.customizable && (
+            {product.customizable && product.category !== "Marcapáginas" && (
               <Badge variant="secondary" className="bg-accent text-accent-foreground">
                 <Sparkles className="w-3 h-3 mr-1" />
                 Personalizable
@@ -68,7 +68,7 @@ export function ProductModal({ product, open, onClose, onAddToCart }: ProductMod
             </Button>
           </div>
 
-          {product.customizable && (
+          {product.customizable && product.category !== "Marcapáginas" && (
             <div className="p-6 bg-accent/10 border-2 border-accent rounded-xl">
               <h4 className="font-bold text-lg mb-2 flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-accent-foreground" />
