@@ -17,7 +17,7 @@ export function ContactForm() {
     e.preventDefault();
     
     const whatsappNumber = "34619029065";
-    const message = `Hola, quiero hacer una consulta desde Infantes 3D:\n\n` +
+    const message = `Hola, quiero hacer una consulta desde Infantes 3D de un pedido personalizado:\n\n` +
       `Nombre: ${formData.name}\n\n` +
       `Mensaje:\n${formData.message}`;
     

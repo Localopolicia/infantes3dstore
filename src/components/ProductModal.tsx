@@ -96,10 +96,6 @@ export function ProductModal({ product, open, onClose, onAddToCart }: ProductMod
                 <span className="text-primary mt-1">•</span>
                 <span>Diseño único y original</span>
               </li>
-              <li className="flex items-start gap-2">
-                <span className="text-primary mt-1">•</span>
-                <span>Envío cuidadoso y protegido</span>
-              </li>
             </ul>
           </div>
         </div>
