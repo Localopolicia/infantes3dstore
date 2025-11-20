@@ -10,8 +10,6 @@ import { Send, RotateCcw } from "lucide-react";
 export function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
-    phone: "",
     message: "",
   });
 
@@ -20,9 +18,7 @@ export function ContactForm() {
     
     const whatsappNumber = "34619029065";
     const message = `Hola, quiero hacer una consulta desde Infantes 3D:\n\n` +
-      `Nombre: ${formData.name}\n` +
-      `Email: ${formData.email}\n` +
-      `Teléfono: ${formData.phone || "No proporcionado"}\n\n` +
+      `Nombre: ${formData.name}\n\n` +
       `Mensaje:\n${formData.message}`;
     
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -35,7 +31,7 @@ export function ContactForm() {
   };
 
   const handleReset = () => {
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    setFormData({ name: "", message: "" });
   };
 
   return (
@@ -51,41 +47,14 @@ export function ContactForm() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="space-y-2">
-              <Label htmlFor="name">Nombre *</Label>
-              <Input
-                id="name"
-                placeholder="Tu nombre completo"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-                className="border-2"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="email">Email *</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="tu@email.com"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                className="border-2"
-              />
-            </div>
-          </div>
-
           <div className="space-y-2">
-            <Label htmlFor="phone">Teléfono (opcional)</Label>
+            <Label htmlFor="name">Nombre *</Label>
             <Input
-              id="phone"
-              type="tel"
-              placeholder="+34 600 000 000"
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              id="name"
+              placeholder="Tu nombre completo"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              required
               className="border-2"
             />
           </div>
