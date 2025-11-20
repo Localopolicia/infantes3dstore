@@ -624,3 +624,6 @@ export const PRODUCTS: Product[] = [
   },
 ];
 
+export const CATEGORIES: Category[] = Array.from(
+  new Set(PRODUCTS.map((p) => p.category))
+);
