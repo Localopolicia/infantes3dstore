@@ -4,6 +4,7 @@ import { PRODUCTS, CATEGORIES, Product } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductModal } from "@/components/ProductModal";
 import { ContactForm } from "@/components/ContactForm";
+import { CartSheet } from "@/components/CartSheet";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,42 +23,24 @@ const Index = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("Todos");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [cartCount, setCartCount] = useState(0);
   const [cartItems, setCartItems] = useState<Product[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
 
   const handleAddToCart = (product: Product) => {
-    setCartCount((prev) => prev + 1);
     setCartItems((prev) => [...prev, product]);
     toast.success("Añadido al carrito", {
       description: `${product.title} se ha añadido correctamente.`,
     });
   };
 
-  const handleSendCart = () => {
-    if (cartItems.length === 0) {
-      toast.error("Carrito vacío", {
-        description: "Añade productos antes de enviar el pedido.",
-      });
-      return;
-    }
+  const handleRemoveFromCart = (index: number) => {
+    setCartItems((prev) => prev.filter((_, i) => i !== index));
+    toast.success("Producto eliminado del carrito");
+  };
 
-    const whatsappNumber = "34619029065";
-    const productList = cartItems
-      .map((item, index) => `${index + 1}. ${item.title} - €${item.price.toFixed(2)}`)
-      .join("\n");
-    const total = cartItems.reduce((sum, item) => sum + item.price, 0);
-    
-    const message = `Hola, quiero hacer un pedido desde Infantes 3D:\n\n` +
-      `Productos:\n${productList}\n\n` +
-      `Total: €${total.toFixed(2)}\n\n` +
-      `Por favor, confirmar disponibilidad y tiempo de entrega.`;
-    
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, "_blank");
-    
-    toast.success("Redirigiendo a WhatsApp", {
-      description: "Se abrirá una ventana con tu pedido preparado.",
-    });
+  const handleClearCart = () => {
+    setCartItems([]);
+    toast.success("Carrito vaciado");
   };
 
   const filteredProducts = PRODUCTS.filter((product) => {
@@ -98,12 +81,12 @@ const Index = () => {
               variant="outline"
               size="lg"
               className="relative border-2 hover:border-primary"
-              onClick={handleSendCart}
+              onClick={() => setCartOpen(true)}
             >
               <ShoppingCart className="w-5 h-5" />
-              {cartCount > 0 && (
-                <Badge className="absolute -top-2 -right-2 bg-primary text-primary-foreground px-2">
-                  {cartCount}
+              {cartItems.length > 0 && (
+                <Badge className="absolute -top-2 -right-2 bg-primary text-primary-foreground min-w-[1.5rem] h-6">
+                  {cartItems.length}
                 </Badge>
               )}
             </Button>
@@ -312,6 +295,15 @@ const Index = () => {
         open={!!selectedProduct}
         onClose={() => setSelectedProduct(null)}
         onAddToCart={handleAddToCart}
+      />
+
+      {/* Cart Sheet */}
+      <CartSheet
+        open={cartOpen}
+        onOpenChange={setCartOpen}
+        cartItems={cartItems}
+        onRemoveItem={handleRemoveFromCart}
+        onClearCart={handleClearCart}
       />
     </div>
   );
